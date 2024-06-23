@@ -78,12 +78,14 @@ var ZeroPassword = function () {
                 password += char;
             }
 
+            password = password.slice(0, length);
+
             // Ensure password meets all requirements
             if (!meetsRequirements(password, upperCase, lowerCase, numbers, specialChars)) {
                 return this.compute(keyword, service, length, upperCase, lowerCase, numbers, specialChars);
             }
 
-            return password.slice(0, length);
+            return password;
         }
     };
 }();
