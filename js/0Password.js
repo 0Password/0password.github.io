@@ -1,36 +1,35 @@
-﻿/*
-    0Password.js
-    ---------------------
-    0Password never remembers your passwords.
-    It keeps your digital life secure and always available,
-    safe behind the zero password that only you know.
-    ---------------------
-    https://0password.github.io/
-    ---------------------
-    by Max Gripe (https://github.com/MaxGripe)   
-*/
+﻿var ZeroPassword = function () {
 
-var ZeroPassword = function () {
+    var upperCaseSet = "ABCDEFGHJKLMNPRSTUVWXYZ";
+    var lowerCaseSet = "abcdefghijkmnopqrstuvwxyz";
+    var numbersSet = "23456789";
+    var specialCharSet = "!#%+:=?@";
 
     function getCharFromSet(hash, charSet, index) {
         return charSet[hash.charCodeAt(index) % charSet.length];
     }
 
+    function isInSet(password, charSet) {
+        for (var i = 0; i < password.length; i++) {
+            if (charSet.indexOf(password[i]) !== -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function meetsRequirements(password, upperCase, lowerCase, numbers, specialChars) {
-        return (!upperCase || /[A-Z]/.test(password)) &&
-            (!lowerCase || /[a-z]/.test(password)) &&
-            (!numbers || /[0-9]/.test(password)) &&
-            (!specialChars || /[!@#$%^&*_\-+:,.?]/.test(password));
+        return (!upperCase || isInSet(password, upperCaseSet)) &&
+            (!lowerCase || isInSet(password, lowerCaseSet)) &&
+            (!numbers || isInSet(password, numbersSet)) &&
+            (!specialChars || isInSet(password, specialCharSet));
     }
 
     return {
         compute: function (keyword, service, length, upperCase, lowerCase, numbers, specialChars) {
-            var minLen = 8;
-            var maxLen = 64;
-            var upperCaseSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            var lowerCaseSet = "abcdefghijklmnopqrstuvwxyz";
-            var numbersSet = "0123456789";
-            var specialCharSet = "!@#$%^&*_-+:,.?";
+
+            var minLen = 4;
+            var maxLen = 128;
 
             var charMap = "";
             if (upperCase) charMap += upperCaseSet;
@@ -38,54 +37,42 @@ var ZeroPassword = function () {
             if (numbers) charMap += numbersSet;
             if (specialChars) charMap += specialCharSet;
 
-            var password = "";
+            if (charMap.length === 0) {
+                return '';
+            }
 
             length = Math.min(Math.max(length, minLen), maxLen);
             keyword = keyword || "";
             service = service || "";
 
-            var baseString = keyword + service +
-                (upperCase ? "U" : "") +
-                (lowerCase ? "L" : "") +
-                (numbers ? "N" : "") +
-                (specialChars ? "S" : "");
-            var hash = CryptoJS.SHA256(baseString).toString(CryptoJS.enc.Base64);
+            var attempt = 1;
+            do {
+                var password = "";
 
-            var index = 0;
+                var baseString = keyword + service +
+                    (upperCase ? "U" : "") +
+                    (lowerCase ? "L" : "") +
+                    (numbers ? "N" : "") +
+                    (specialChars ? "S" : "") +
+                    attempt.toString();
+                var hash = CryptoJS.SHA256(baseString).toString(CryptoJS.enc.Base64);
 
-            // Ensure at least one character of each required type
-            var requiredTypes = [
-                { active: upperCase, set: upperCaseSet, added: false },
-                { active: lowerCase, set: lowerCaseSet, added: false },
-                { active: numbers, set: numbersSet, added: false },
-                { active: specialChars, set: specialCharSet, added: false }
-            ];
+                var index = 0;
 
-            requiredTypes.forEach(function (type) {
-                if (type.active) {
-                    password += getCharFromSet(hash, type.set, index++);
-                    type.added = true;
+                while (password.length < length) {
+                    if (index >= hash.length) {
+                        hash = CryptoJS.SHA256(hash).toString(CryptoJS.enc.Base64);
+                        index = 0;
+                    }
+                    var char = getCharFromSet(hash, charMap, index++);
+                    password += char;
                 }
-            });
 
-            // Fill the rest of the password
-            while (password.length < length) {
-                if (index >= hash.length) {
-                    hash = CryptoJS.SHA256(hash).toString(CryptoJS.enc.Base64);
-                    index = 0;
-                }
-                var char = charMap[hash.charCodeAt(index++) % charMap.length];
-                password += char;
-            }
-
-            password = password.slice(0, length);
-
-            // Ensure password meets all requirements
-            if (!meetsRequirements(password, upperCase, lowerCase, numbers, specialChars)) {
-                return this.compute(keyword, service, length, upperCase, lowerCase, numbers, specialChars);
-            }
+                attempt++;
+            } while (!meetsRequirements(password, upperCase, lowerCase, numbers, specialChars));
 
             return password;
+
         }
     };
 }();
