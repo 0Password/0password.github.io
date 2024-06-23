@@ -1,17 +1,29 @@
-﻿var ZeroPassword = function () {
+﻿/*
+    0Password.js
+    ---------------------
+    0Password never remembers your passwords.
+    It keeps your digital life secure and always available,
+    safe behind the zero password that only you know.
+    ---------------------
+    https://0password.github.io/
+    ---------------------
+    by Max Gripe (https://github.com/MaxGripe)   
+*/
 
-    var upperCaseSet = "ABCDEFGHJKLMNPRSTUVWXYZ";
-    var lowerCaseSet = "abcdefghijkmnopqrstuvwxyz";
-    var numbersSet = "23456789";
-    var specialCharSet = "!#%+:=?@";
+var ZeroPassword = function () {
 
-    function getCharFromSet(hash, charSet, index) {
+    var upperCaseSet = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+    var lowerCaseSet = "abcdefghijkmnoprstuvwxyz";
+    var numbersSet = "234567892345678923456789";
+    var specialCharSet = "!#%+:=?@!#%+:=?@!#%+:=?@";
+
+    function getChar(hash, charSet, index) {
         return charSet[hash.charCodeAt(index) % charSet.length];
     }
 
-    function isInSet(password, charSet) {
+    function containsCharFromSet(password, set) {
         for (var i = 0; i < password.length; i++) {
-            if (charSet.indexOf(password[i]) !== -1) {
+            if (set.indexOf(password[i]) !== -1) {
                 return true;
             }
         }
@@ -19,10 +31,10 @@
     }
 
     function meetsRequirements(password, upperCase, lowerCase, numbers, specialChars) {
-        return (!upperCase || isInSet(password, upperCaseSet)) &&
-            (!lowerCase || isInSet(password, lowerCaseSet)) &&
-            (!numbers || isInSet(password, numbersSet)) &&
-            (!specialChars || isInSet(password, specialCharSet));
+        return (!upperCase || containsCharFromSet(password, upperCaseSet)) &&
+            (!lowerCase || containsCharFromSet(password, lowerCaseSet)) &&
+            (!numbers || containsCharFromSet(password, numbersSet)) &&
+            (!specialChars || containsCharFromSet(password, specialCharSet));
     }
 
     return {
@@ -43,9 +55,9 @@
 
             length = Math.min(Math.max(length, minLen), maxLen);
             keyword = keyword || "";
-            service = service || "";
+            service = (service || "").toLowerCase();
 
-            var attempt = 1;
+            var attempt = 0;
             do {
                 var password = "";
 
@@ -64,7 +76,7 @@
                         hash = CryptoJS.SHA256(hash).toString(CryptoJS.enc.Base64);
                         index = 0;
                     }
-                    var char = getCharFromSet(hash, charMap, index++);
+                    var char = getChar(hash, charMap, index++);
                     password += char;
                 }
 
