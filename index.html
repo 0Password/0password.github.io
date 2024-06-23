@@ -1,11 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>0Password</title>
+
+    <script src="js/libs/jquery-1.11.0.min.js"></script>
+    <script src="js/libs/core-min.js"></script>
+    <script src="js/libs/enc-base64-min.js"></script>
+    <script src="js/libs/sha256.js"></script>
+    <script src="js/0Password.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var PasswordForm = $("#form0");
+
+            var keywordField = $("#0Password");
+            var serviceField = $("#Service");
+            var lengthField = $("#Length");
+            var UpperCaseButton = $("#UpperCase");
+            var LowerCaseButton = $("#LowerCase");
+            var NumbersButton = $("#Numbers");
+            var SpecialCharactersButton = $("#SpecialCharacters");
+            var RetrieveButton = $("#RetrieveButton");
+            var ResultField = $("#Result");
+
+            var keywordString = "";
+            var serviceString = "";
+            var length = 15;
+            var MakeUpperCase = false;
+            var MakeLowerCase = false;
+            var MakeNumbers = false;
+            var MakeSpecialCharacters = false;
+
+            PasswordForm.submit(function (e) {
+                e.preventDefault();
+
+                keywordString = keywordField.val();
+                serviceString = serviceField.val();
+                length = +(lengthField.val());
+                MakeUpperCase = UpperCaseButton.is(":checked");
+                MakeLowerCase = LowerCaseButton.is(":checked");
+                MakeNumbers = NumbersButton.is(":checked");
+                MakeSpecialCharacters = SpecialCharactersButton.is(":checked");
+
+                var password = ZeroPassword.compute(keywordString, serviceString, length, MakeUpperCase, MakeLowerCase, MakeNumbers, MakeSpecialCharacters);
+                ResultField.val(password);
+            });
+
+        });
+    </script>
 </head>
+
 <body>
     <h1>0Password</h1>
-    <p>0Password never remembers your passwords. It keeps your digital life secure and always available, safe behind the one password that only you know. </p>
+    <h3>0Password never remembers your passwords. It keeps your digital life secure and always available, safe behind
+        the
+        zero password that only you know.</h3>
+
+    <section>
+        <form id="form0" action="" method="get" autocomplete="off">
+            <p class="generator-p">
+                <span class="generator-block">
+                    Password that only you know (0Password)<br />
+                    <input autofocus="autofocus" id="0Password" name="0Password" tabindex="1" type="password"
+                        autocomplete="off" required /><br />
+                </span>
+
+            </p>
+            <p class="generator-p">
+                <span class="generator-block">
+                    Service<br />
+                    <input id="Service" name="Service" tabindex="2" type="text" autocomplete="off" required /><br />
+                </span>
+                <span class="description">
+                    Examples: <span>github</span>, <span>facebook</span>, <span>gmail</span>, <span>amazon</span>,
+                    <span>instagram</span>, <span>reddit</span>, or anything else.
+                </span>
+                <span class="clearboth"></span>
+            </p>
+            <p class="generator-p">
+                <span class="generator-block">
+                    Length (8-64)<br />
+                    <input id="Length" name="Length" tabindex="3" type="number" value="15" min="8" max="64" required />
+                    <br />
+
+                    <span class="checkboxes">
+                        <input checked="checked" data-val="true" data-val-required="The UpperCase field is required."
+                            id="UpperCase" name="UpperCase" type="checkbox" value="true" /><input name="UpperCase"
+                            type="hidden" value="false" /> Shouting Letters<br />
+                        <input checked="checked" data-val="true" data-val-required="The LowerCase field is required."
+                            id="LowerCase" name="LowerCase" type="checkbox" value="true" /><input name="LowerCase"
+                            type="hidden" value="false" /> Small Letters<br />
+                        <input checked="checked" data-val="true" data-val-required="The Numbers field is required."
+                            id="Numbers" name="Numbers" type="checkbox" value="true" /><input name="Numbers"
+                            type="hidden" value="false" />
+                        Digits<br />
+                        <input checked="checked" data-val="true"
+                            data-val-required="The SpecialCharacters field is required." id="SpecialCharacters"
+                            name="SpecialCharacters" type="checkbox" value="true" /><input name="SpecialCharacters"
+                            type="hidden" value="false" /> Crazy Symbols<br />
+                    </span>
+                </span>
+            </p>
+            <p class="retrieve-button">
+                <span class="generator-block">
+                    <input type="submit" id="RetrieveButton" value="Retrieve Password" class="button" tabindex="4" />
+                </span>
+            </p>
+            <p class="generator-p">
+                <span class="generator-block">
+                    Ta-Da! Your Password<br />
+                    <input id="Result" name="Result" type="text" tabindex="5" value="" autocomplete="off" /><br />
+                </span>
+
+            </p>
+        </form>
+    </section>
+    <footer>
+        <p>
+            This page is hosted on GitHub Pages. The source code is available <a
+                href="https://github.com/0Password/0password.github.io" target="_blank">here</a>.
+            Your passwords are not stored.
+        </p>
+    </footer>
 </body>
+
 </html>
