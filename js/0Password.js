@@ -15,7 +15,7 @@ var ZeroPassword = function () {
     var upperCaseSet = "ABCDEFGHJKLMNPQRSTUVWXYZ";
     var lowerCaseSet = "abcdefghijkmnoprstuvwxyz";
     var numbersSet = "234567892345678923456789";
-    var specialCharSet = "!#%+:=?@!#%+:=?@!#%+:=?@";
+    var specialCharSet = "!#%+:=?@"; // The frequency of special characters is intentionally reduced.
 
     function getChar(hash, charSet, index) {
         return charSet[hash.charCodeAt(index) % charSet.length];
@@ -66,6 +66,7 @@ var ZeroPassword = function () {
                     (lowerCase ? "L" : "") +
                     (numbers ? "N" : "") +
                     (specialChars ? "S" : "") +
+                    length.toString() +
                     attempt.toString();
                 var hash = CryptoJS.SHA256(baseString).toString(CryptoJS.enc.Base64);
 
