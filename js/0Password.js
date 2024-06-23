@@ -41,7 +41,7 @@ var ZeroPassword = function () {
         compute: function (keyword, service, length, upperCase, lowerCase, numbers, specialChars) {
 
             var minLen = 4;
-            var maxLen = 128;
+            var maxLen = 512;
 
             var charMap = "";
             if (upperCase) charMap += upperCaseSet;
