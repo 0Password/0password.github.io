@@ -35,6 +35,7 @@
         }
 
         @media (prefers-color-scheme: dark) {
+
             :root,
             ::backdrop {
                 --main-background: #171717;
@@ -52,10 +53,11 @@
             font-family: 'JetBrains Mono';
             font-style: normal;
             src: local(''),
-            url('./font/JetBrainsMono-Regular.woff2') format('woff2');
+                url('./font/JetBrainsMono-Regular.woff2') format('woff2');
         }
 
-        html, body {
+        html,
+        body {
             min-height: 100%;
             margin: 0;
             padding: 0;
@@ -72,7 +74,9 @@
         h1 {
             margin-bottom: 5px;
         }
-        blockquote, footer {
+
+        blockquote,
+        footer {
             margin-top: 10px;
             margin-bottom: 20px;
             font-size: 1.2em;
@@ -100,7 +104,11 @@
             color: var(--text-labels);
         }
 
-        input[type="text"], input[type="password"], input[type="number"], input[type="submit"], input[type="checkbox"] {
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        input[type="submit"],
+        input[type="checkbox"] {
             display: block;
             width: 100%;
             padding: 5px;
@@ -117,7 +125,9 @@
             color: var(--text-labels);
 
         }
-        input:focus, textarea:focus {
+
+        input:focus,
+        textarea:focus {
             -webkit-box-shadow: 0px 0px 2px var(--text-labels);
             -moz-box-shadow: 0px 0px 2px var(--text-labels);
             box-shadow: 0px 0px 2px var(--text-labels);
@@ -146,6 +156,7 @@
         footer {
             margin-bottom: 0;
         }
+
         footer a {
             color: var(--text-labels);
 
@@ -180,12 +191,12 @@
             background-color: var(--main-background);
         }
 
-        .checkbox-group:hover input ~ .checkmark {
+        .checkbox-group:hover input~.checkmark {
             background-color: var(--input-borders);
             transition: background-color 0.3s ease;
         }
 
-        .checkbox-group input:checked ~ .checkmark {
+        .checkbox-group input:checked~.checkmark {
             background-color: var(--text-labels);
             transition: background-color 0.3s ease;
         }
@@ -196,7 +207,7 @@
             display: none;
         }
 
-        .checkbox-group input:checked ~ .checkmark:after {
+        .checkbox-group input:checked~.checkmark:after {
             display: block;
         }
 
@@ -218,30 +229,39 @@
         }
 
         @media only screen and (max-width: 750px) {
-            blockquote, footer {
+
+            blockquote,
+            footer {
                 max-width: 100%;
                 margin: 10px auto;
             }
+
             form {
                 width: 90%;
             }
         }
 
         @media only screen and (max-width: 800px) {
-            blockquote, footer {
+
+            blockquote,
+            footer {
                 font-size: 0.8em;
             }
+
             blockquote br {
                 display: none;
             }
         }
 
-        @media print
-        {
-            footer, .checkbox-group, input[type="submit"], blockquote
-            {
+        @media print {
+
+            footer,
+            .checkbox-group,
+            input[type="submit"],
+            blockquote {
                 display: none;
             }
+
             form {
                 border: 0;
                 box-shadow: none;
@@ -252,75 +272,77 @@
 
 <body>
     <h1>0Password <= 0!</h1>
-    <blockquote>0Password never remembers your passwords. <br />It keeps your digital life secure and always available, safe behind the zero password that only you know.</blockquote>
+            <blockquote>0Password never remembers your passwords. <br />It keeps your digital life secure and always
+                available, safe behind the zero password that only you know.</blockquote>
 
-    <form action="" method="get" autocomplete="off">
-        <div>
-            <label for="0Password">Password that only you know (0Password)</label>
-            <input id="0Password" name="0Password" type="password" autocomplete="off" required /><br />
-        </div>
-        <div>
-            <label for="Service">Service</label>
-            <input id="Service" name="Service" type="text" autocomplete="off" required />
-            <span>Examples: <em>github, gmail, ...</em></span>
-        </div>
-        <div>
-            <label for="Length">Length</label>
-            <input id="Length" name="Length" type="number" value="15" min="4" max="512" required /><br />
-        </div>
-        <div>
-            <label class="checkbox-group" for="UpperCase">Shouting Letters
-                <input id="UpperCase" name="UpperCase" type="checkbox" value="true" checked />
-                <span class="checkmark"></span>
-            </label>
+            <form id="form0" action="" method="get" autocomplete="off">
+                <div>
+                    <label for="0Password">Password that only you know (0Password)</label>
+                    <input id="0Password" name="0Password" type="password" autocomplete="off" required /><br />
+                </div>
+                <div>
+                    <label for="Service">Service</label>
+                    <input id="Service" name="Service" type="text" autocomplete="off" required />
+                    <span>Examples: <em>github, gmail, ...</em></span>
+                </div>
+                <div>
+                    <label for="Length">Length</label>
+                    <input id="Length" name="Length" type="number" value="15" min="4" max="512" required /><br />
+                </div>
+                <div>
+                    <label class="checkbox-group" for="UpperCase">Shouting Letters
+                        <input id="UpperCase" name="UpperCase" type="checkbox" value="true" checked />
+                        <span class="checkmark"></span>
+                    </label>
 
-            <label class="checkbox-group" for="LowerCase">Small Letters
-                <input id="LowerCase" name="LowerCase" type="checkbox" value="true" checked />
-                <span class="checkmark"></span>
-            </label>
+                    <label class="checkbox-group" for="LowerCase">Small Letters
+                        <input id="LowerCase" name="LowerCase" type="checkbox" value="true" checked />
+                        <span class="checkmark"></span>
+                    </label>
 
-            <label class="checkbox-group" for="Numbers">Digits
-                <input id="Numbers" name="Numbers" type="checkbox" value="true" checked />
-                <span class="checkmark"></span>
-            </label>
+                    <label class="checkbox-group" for="Numbers">Digits
+                        <input id="Numbers" name="Numbers" type="checkbox" value="true" checked />
+                        <span class="checkmark"></span>
+                    </label>
 
-            <label class="checkbox-group" for="SpecialCharacters">Crazy Symbols
-                <input id="SpecialCharacters" name="SpecialCharacters" type="checkbox" value="true" checked />
-                <span class="checkmark"></span>
-            </label>
-        </div>
-        <div>
-            <input type="submit" id="RetrieveButton" value="Retrieve Password" />
-        </div>
-        <div>
-            <label for="Result">Ta-Da! Your Password</label>
-            <input id="Result" name="Result" type="text" autocomplete="off" /><br />
-        </div>
-    </form>
-    <footer>
-        Hosted on GitHub Pages. The code is available <a href="https://github.com/0Password/0password.github.io" target="_blank">here</a>. Your passwords are not stored. 2024 † AMDG
-    </footer>
+                    <label class="checkbox-group" for="SpecialCharacters">Crazy Symbols
+                        <input id="SpecialCharacters" name="SpecialCharacters" type="checkbox" value="true" checked />
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div>
+                    <input type="submit" id="RetrieveButton" value="Retrieve Password" />
+                </div>
+                <div>
+                    <label for="Result">Ta-Da! Your Password</label>
+                    <input id="Result" name="Result" type="text" autocomplete="off" /><br />
+                </div>
+            </form>
+            <footer>
+                Hosted on GitHub Pages. The code is available <a href="https://github.com/0Password/0password.github.io"
+                    target="_blank">here</a>. Your passwords are not stored. 2024 † AMDG
+            </footer>
 
-    <script>
-        document.getElementById("form0").addEventListener("submit", function (e) {
-            e.preventDefault();
+            <script>
+                document.getElementById("form0").addEventListener("submit", function (e) {
+                    e.preventDefault();
 
-            var keyword = document.getElementById("0Password").value;
-            var service = document.getElementById("Service").value.toLowerCase();
-            var length = +document.getElementById("Length").value;
-            var upperCase = document.getElementById("UpperCase").checked;
-            var lowerCase = document.getElementById("LowerCase").checked;
-            var numbers = document.getElementById("Numbers").checked;
-            var specialChars = document.getElementById("SpecialCharacters").checked;
+                    var keyword = document.getElementById("0Password").value;
+                    var service = document.getElementById("Service").value.toLowerCase();
+                    var length = +document.getElementById("Length").value;
+                    var upperCase = document.getElementById("UpperCase").checked;
+                    var lowerCase = document.getElementById("LowerCase").checked;
+                    var numbers = document.getElementById("Numbers").checked;
+                    var specialChars = document.getElementById("SpecialCharacters").checked;
 
-            var password = ZeroPassword.compute(keyword, service, length, upperCase, lowerCase, numbers, specialChars);
-            document.getElementById("Result").value = password;
-        });
+                    var password = ZeroPassword.compute(keyword, service, length, upperCase, lowerCase, numbers, specialChars);
+                    document.getElementById("Result").value = password;
+                });
 
-        document.getElementById("Result").addEventListener("keydown", function (e) {
-            e.preventDefault();
-        });
-    </script>
+                document.getElementById("Result").addEventListener("keydown", function (e) {
+                    e.preventDefault();
+                });
+            </script>
 </body>
 
 </html>
