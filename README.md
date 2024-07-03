@@ -2,7 +2,7 @@
 
 The ultimate password manager that doesn't mess around. It keeps your digital life locked down tighter than Fort Knox, all while remembering absolutely nothing.
 
-## How It Works
+## How it works
 
 1. **0Password** - This is your master key. Keep it safe.
 2. **Service** - Where's this password going? Reddit? X? You name it.
@@ -14,13 +14,13 @@ The ultimate password manager that doesn't mess around. It keeps your digital li
 - **Ultra-Secure**: Uses SHA-256 hashing to keep things tight.
 - **Customizable**: Tailor your password length and character types.
 - **Memory-Free**: We don’t remember a thing.
+- **Print-Ready**: Need it on paper? No problem, it prints like a dream.
+- **Easy-to-Scribble**: No confusing characters.
 
 ## Why 0Password?
 
-Because you deserve a password manager that doesn't pretend to be a 1 Memory Palace. Keep it simple, keep it secure, and keep moving.
+Because you deserve a password manager that doesn't pretend to be a 1MemoryPalace. Keep it simple, keep it secure, and keep moving.
 
 ## Contributing
 
-Feel free to fork, tinker, and send a pull request. Let’s make this the best password manager out there. Happy passwording!
-
-
+Feel free to fork, tinker, and send a pull request. Happy 0passwording!

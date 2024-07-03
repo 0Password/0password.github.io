@@ -3,45 +3,258 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>0Password</title>
+    <title>0Password - Deterministic Password Generator</title>
+    <meta name="description" content="Deterministic Password Generator">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="0Password">
+    <meta name="application-name" content="0Password">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
 
-    <link rel="stylesheet" href="css/styles.css">
-
-    <script src="js/libs/jquery-1.11.0.min.js"></script>
     <script src="js/libs/core-min.js"></script>
     <script src="js/libs/enc-base64-min.js"></script>
     <script src="js/libs/sha256.js"></script>
     <script src="js/0Password.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var PasswordForm = $("#form0");
+    <style>
+        :root,
+        ::backdrop {
+            --main-background: #f3f3f3;
+            --form-background: #ffffff;
+            --input-borders: #ccc;
+            --text-examples: #888;
+            --text-description: #555;
+            --text-labels: #333;
+            --form-shadow: rgba(0, 0, 0, 0.1);
+        }
 
-            PasswordForm.submit(function (e) {
-                e.preventDefault();
+        @media (prefers-color-scheme: dark) {
+            :root,
+            ::backdrop {
+                --main-background: #171717;
+                --form-background: #202020;
+                --input-borders: #424242;
+                --text-examples: #676767;
+                --text-description: #8c8a8a;
+                --text-labels: #c8c8c8;
 
-                var keyword = $("#0Password").val();
-                var service = $("#Service").val().toLowerCase();
-                var length = +$("#Length").val();
-                var upperCase = $("#UpperCase").is(":checked");
-                var lowerCase = $("#LowerCase").is(":checked");
-                var numbers = $("#Numbers").is(":checked");
-                var specialChars = $("#SpecialCharacters").is(":checked");
+                --form-shadow: rgba(0, 0, 0, 0.3);
+            }
+        }
 
-                var password = ZeroPassword.compute(keyword, service, length, upperCase, lowerCase, numbers, specialChars);
-                $("#Result").val(password);
-            });
-        });
-    </script>
+        @font-face {
+            font-family: 'JetBrains Mono';
+            font-style: normal;
+            src: local(''),
+            url('./font/JetBrainsMono-Regular.woff2') format('woff2');
+        }
+
+        html, body {
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--main-background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            color: var(--text-labels);
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+        blockquote, footer {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: var(--text-description);
+            max-width: 635px;
+        }
+
+        form {
+            font-size: 1.2em;
+            background: var(--form-background);
+            padding: 20px 20px 0 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--form-shadow);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        form div {
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 2px;
+            color: var(--text-labels);
+        }
+
+        input[type="text"], input[type="password"], input[type="number"], input[type="submit"], input[type="checkbox"] {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            margin: 0 auto;
+            border: 1px solid var(--input-borders);
+            box-sizing: border-box;
+            font-size: 1.5em;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            background-color: var(--form-background);
+            border-radius: 4px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            color: var(--text-labels);
+
+        }
+        input:focus, textarea:focus {
+            -webkit-box-shadow: 0px 0px 2px var(--text-labels);
+            -moz-box-shadow: 0px 0px 2px var(--text-labels);
+            box-shadow: 0px 0px 2px var(--text-labels);
+        }
+
+        input[type="submit"] {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            background-color: var(--text-labels);
+            color: var(--main-background);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--text-description);
+        }
+
+        span {
+            display: block;
+            color: var(--text-examples);
+            margin-bottom: 25px;
+            font-size: 0.8em;
+        }
+
+        footer {
+            margin-bottom: 0;
+        }
+        footer a {
+            color: var(--text-labels);
+
+        }
+
+        .checkbox-group {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .checkbox-group input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: var(--main-background);
+        }
+
+        .checkbox-group:hover input ~ .checkmark {
+            background-color: var(--input-borders);
+            transition: background-color 0.3s ease;
+        }
+
+        .checkbox-group input:checked ~ .checkmark {
+            background-color: var(--text-labels);
+            transition: background-color 0.3s ease;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-group input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .checkbox-group .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid var(--form-background);
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        input[type="password"] {
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.25em;
+        }
+
+        @media only screen and (max-width: 750px) {
+            blockquote, footer {
+                max-width: 100%;
+                margin: 10px auto;
+            }
+            form {
+                width: 90%;
+            }
+        }
+
+        @media only screen and (max-width: 800px) {
+            blockquote, footer {
+                font-size: 0.8em;
+            }
+            blockquote br {
+                display: none;
+            }
+        }
+
+        @media print
+        {
+            footer, .checkbox-group, input[type="submit"], blockquote
+            {
+                display: none;
+            }
+            form {
+                border: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>0Password</h1>
-    <blockquote>0Password never remembers your passwords. It keeps your digital life secure and always available, safe
-        behind
-        the zero password that only you know.</blockquote>
+    <h1>0Password <= 0!</h1>
+    <blockquote>0Password never remembers your passwords. <br />It keeps your digital life secure and always available, safe behind the zero password that only you know.</blockquote>
 
-    <form id="form0" action="" method="get" autocomplete="off">
+    <form action="" method="get" autocomplete="off">
         <div>
             <label for="0Password">Password that only you know (0Password)</label>
             <input id="0Password" name="0Password" type="password" autocomplete="off" required /><br />
@@ -52,17 +265,29 @@
             <span>Examples: <em>github, gmail, ...</em></span>
         </div>
         <div>
-            <label for="Length">Length (4-512)</label>
+            <label for="Length">Length</label>
             <input id="Length" name="Length" type="number" value="15" min="4" max="512" required /><br />
         </div>
         <div>
-            <label><input id="UpperCase" name="UpperCase" type="checkbox" value="true" checked /> Shouting
-                Letters</label>
-            <label><input id="LowerCase" name="LowerCase" type="checkbox" value="true" checked /> Small
-                Letters</label>
-            <label><input id="Numbers" name="Numbers" type="checkbox" value="true" checked /> Digits</label>
-            <label><input id="SpecialCharacters" name="SpecialCharacters" type="checkbox" value="true" checked /> Crazy
-                Symbols</label>
+            <label class="checkbox-group" for="UpperCase">Shouting Letters
+                <input id="UpperCase" name="UpperCase" type="checkbox" value="true" checked />
+                <span class="checkmark"></span>
+            </label>
+
+            <label class="checkbox-group" for="LowerCase">Small Letters
+                <input id="LowerCase" name="LowerCase" type="checkbox" value="true" checked />
+                <span class="checkmark"></span>
+            </label>
+
+            <label class="checkbox-group" for="Numbers">Digits
+                <input id="Numbers" name="Numbers" type="checkbox" value="true" checked />
+                <span class="checkmark"></span>
+            </label>
+
+            <label class="checkbox-group" for="SpecialCharacters">Crazy Symbols
+                <input id="SpecialCharacters" name="SpecialCharacters" type="checkbox" value="true" checked />
+                <span class="checkmark"></span>
+            </label>
         </div>
         <div>
             <input type="submit" id="RetrieveButton" value="Retrieve Password" />
@@ -73,12 +298,29 @@
         </div>
     </form>
     <footer>
-
-        This page is hosted on GitHub Pages. The source code is available <a
-            href="https://github.com/0Password/0password.github.io" target="_blank">here</a>. Your passwords are not
-        stored.
-
+        Hosted on GitHub Pages. The code is available <a href="https://github.com/0Password/0password.github.io" target="_blank">here</a>. Your passwords are not stored.
     </footer>
+
+    <script>
+        document.getElementById("form0").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            var keyword = document.getElementById("0Password").value;
+            var service = document.getElementById("Service").value.toLowerCase();
+            var length = +document.getElementById("Length").value;
+            var upperCase = document.getElementById("UpperCase").checked;
+            var lowerCase = document.getElementById("LowerCase").checked;
+            var numbers = document.getElementById("Numbers").checked;
+            var specialChars = document.getElementById("SpecialCharacters").checked;
+
+            var password = ZeroPassword.compute(keyword, service, length, upperCase, lowerCase, numbers, specialChars);
+            document.getElementById("Result").value = password;
+        });
+
+        document.getElementById("Result").addEventListener("keydown", function (e) {
+            e.preventDefault();
+        });
+    </script>
 </body>
 
 </html>
