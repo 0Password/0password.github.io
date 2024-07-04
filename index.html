@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>0Password - Deterministic Password Generator</title>
     <meta name="description" content="Deterministic Password Generator">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
@@ -79,19 +80,22 @@
 
         h1 {
             margin-bottom: 5px;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 1.5em;
         }
 
         blockquote,
         footer {
             margin-top: 10px;
             margin-bottom: 20px;
-            font-size: 1.2em;
+            font-size: 1em;
             color: var(--text-description);
             max-width: 635px;
         }
 
         form {
-            font-size: 1.2em;
+            font-size: 1em;
             background: var(--form-background);
             padding: 20px 20px 0 20px;
             border-radius: 10px;
@@ -149,6 +153,7 @@
             font-family: 'JetBrains Mono';
             font-style: normal;
             font-weight: 400;
+            font-size: 1.5em;
             -webkit-appearance: none;
             appearance: none;
         }
@@ -282,11 +287,11 @@
 </head>
 
 <body>
-    <h1>0Password <= 0!</h1>
+    <h1>0Password &lt;= 0!</h1>
             <blockquote>0Password never remembers your passwords. <br />It keeps your digital life secure and always
                 available, safe behind the zero password that only you know.</blockquote>
 
-            <form id="form0" action="" method="get" autocomplete="off">
+            <form id="form0" method="get" autocomplete="off">
                 <div>
                     <label for="0Password">Password that only you know (0Password)</label>
                     <input id="0Password" tabindex="1" name="0Password" type="password" autocomplete="off" required
