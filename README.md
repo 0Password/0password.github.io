@@ -2,6 +2,8 @@
 
 The ultimate password manager that doesn't mess around. It keeps your digital life locked down tighter than Fort Knox, all while remembering absolutely nothing.
 
+![Alt text](https://0password.github.io/media/0Password.jpg)
+
 ## How it works
 
 1. **0Password** - This is your master key. Keep it safe.
