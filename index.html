@@ -289,11 +289,12 @@
             <form id="form0" action="" method="get" autocomplete="off">
                 <div>
                     <label for="0Password">Password that only you know (0Password)</label>
-                    <input id="0Password" name="0Password" type="password" autocomplete="off" required /><br />
+                    <input id="0Password" tabindex="1" name="0Password" type="password" autocomplete="off" required
+                        autofocus /><br />
                 </div>
                 <div>
                     <label for="Service">Service</label>
-                    <input id="Service" name="Service" type="text" autocomplete="off" required />
+                    <input id="Service" tabindex="2" name="Service" type="text" autocomplete="off" required />
                     <span>Examples: <em>github, gmail, ...</em></span>
                 </div>
                 <div>
@@ -326,7 +327,7 @@
                 </div>
                 <div>
                     <label for="Result">Ta-Da! Your Password</label>
-                    <input id="Result" name="Result" type="text" autocomplete="off" /><br />
+                    <input id="Result" tabindex="3" name="Result" type="text" value="" autocomplete="off" /><br />
                 </div>
             </form>
             <footer>
@@ -348,10 +349,6 @@
 
                     var password = ZeroPassword.compute(keyword, service, length, upperCase, lowerCase, numbers, specialChars);
                     document.getElementById("Result").value = password;
-                });
-
-                document.getElementById("Result").addEventListener("keydown", function (e) {
-                    e.preventDefault();
                 });
             </script>
 </body>
