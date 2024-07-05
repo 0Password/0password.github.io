@@ -1,4 +1,7 @@
-# 0Password
+
+![Alt text](https://github.com/0Password/0password.github.io/actions/workflows/static.yml/badge.svg) 
+
+# 0Password - [https://0password.github.io](https://0password.github.io)
 
 The ultimate password manager that doesn't mess around. It keeps your digital life locked down tighter than Fort Knox, all while remembering absolutely nothing.
 
