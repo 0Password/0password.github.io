@@ -1,13 +1,8 @@
 ﻿/*
     0Password.js
-    ---------------------
-    0Password never remembers your passwords.
-    It keeps your digital life secure and always available,
-    safe behind the zero password that only you know.
-    ---------------------
+    Deterministic password generator. Nothing stored.
     https://0password.github.io/
-    ---------------------
-    by Max Gripe (https://github.com/MaxGripe)   
+    by mg (https://github.com/mg0x7BE)   
 */
 
 var ZeroPassword = function () {
